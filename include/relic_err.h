@@ -204,7 +204,6 @@ typedef struct _sts_t {
 		ctx_t *_ctx = core_get();										\
 		_ctx->code = STS_ERR;											\
 		if (_ctx->last != NULL && _ctx->last->block == 0) {				\
-            printf("ERR_THROW 1\n");                                    \
 			exit(E);													\
 		}																\
 		if (_ctx->last == NULL) {										\
@@ -213,7 +212,6 @@ typedef struct _sts_t {
 			_ctx->error.block = 0;										\
 			_ctx->number = E;											\
 			ERR_PRINT(E);												\
-            printf("ERR_THROW 2\n");                                    \
 		} else {														\
 			for (; ; longjmp(_ctx->last->addr, 1)) {					\
 				ERR_PRINT(E);											\
@@ -222,11 +220,9 @@ typedef struct _sts_t {
 						*(_ctx->last->error) = E;						\
 					}													\
 				}														\
-                printf("ERR_THROW 3\n");                                \
 			}															\
 		}																\
 	}																	\
-
 
 #ifdef CHECK
 /**
