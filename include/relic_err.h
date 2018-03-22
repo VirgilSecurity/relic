@@ -37,10 +37,10 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "relic_core.h"
 #include "relic_conf.h"
 #include "relic_util.h"
 #include "relic_label.h"
+#include "relic_err_core.h"
 
 /*============================================================================*/
 /* Constant definitions                                                       */
@@ -108,6 +108,8 @@ enum errors {
 #define ERR_FILE			((strrchr(STR_FILE, '/') ? : STR_FILE - 1) + 1)
 #endif
 
+#ifdef CHECK
+
 /*============================================================================*/
 /* Type definitions                                                           */
 /*============================================================================*/
@@ -130,6 +132,33 @@ typedef struct _sts_t {
 	int block;
 } sts_t;
 
+typedef struct _err_ctx_t {
+	/** The state of the last error caught. */
+	sts_t *last;
+	/** Error state to be used outside try-catch blocks. */
+	sts_t error;
+	/** Error number to be used outside try-catch blocks. */
+	err_t number;
+	/** The error message respective to the last error. */
+	char *reason[ERR_MAX];
+	/** A flag to indicate if the last error was already caught. */
+	int caught;
+
+#ifdef TRACE
+	/** The current trace size. */
+	int trace;
+#endif /* TRACE */
+
+} err_ctx_t;
+
+void err_core_init_default(void);
+
+void err_core_init(err_ctx_t *err_ctx);
+
+#endif /* CHECK */
+
+err_ctx_t *err_core_get(void);
+
 /*============================================================================*/
 /* Macro definitions                                                          */
 /*============================================================================*/
@@ -148,10 +177,10 @@ typedef struct _sts_t {
 #define ERR_TRY															\
 	{																	\
 		sts_t *_last, _this;											\
-		ctx_t *_ctx = core_get();										\
-		_last = _ctx->last; 											\
+		err_ctx_t *_err_ctx = err_core_get();							\
+		_last = _err_ctx->last; 										\
 		_this.block = 1;												\
-		_ctx->last = &_this; 											\
+		_err_ctx->last = &_this; 										\
 		for (int _z = 0; ; _z = 1) 										\
 			if (_z) { 													\
 				if (setjmp(_this.addr) == 0) { 							\
@@ -169,18 +198,18 @@ typedef struct _sts_t {
  */
 #define ERR_CATCH(ADDR)													\
 					else { } 											\
-					_ctx->caught = 0; 									\
+					_err_ctx->caught = 0; 								\
 				} else {												\
-					_ctx->caught = 1; 									\
+					_err_ctx->caught = 1; 								\
 				}														\
-				_ctx->last = _last;										\
+				_err_ctx->last = _last;									\
 				break; 													\
 			} else {													\
 				_this.error = ADDR; 									\
 			}															\
 	} 																	\
 	for (int _z = 0; _z < 2; _z++) 										\
-		if (_z == 1 && core_get()->caught) 								\
+		if (_z == 1 && err_core_get()->caught) 							\
 
 /**
  * Implements the THROW clause of the error-handling routines.
@@ -201,23 +230,23 @@ typedef struct _sts_t {
  */
 #define ERR_THROW(E)													\
 	{																	\
-		ctx_t *_ctx = core_get();										\
-		_ctx->code = STS_ERR;											\
-		if (_ctx->last != NULL && _ctx->last->block == 0) {				\
+		err_ctx_t *_err_ctx = err_core_get();						    \
+		core_get()->code = STS_ERR;										\
+		if (_err_ctx->last != NULL && _err_ctx->last->block == 0) {		\
 			exit(E);													\
 		}																\
-		if (_ctx->last == NULL) {										\
-			_ctx->last = &(_ctx->error);								\
-			_ctx->error.error = &(_ctx->number);						\
-			_ctx->error.block = 0;										\
-			_ctx->number = E;											\
+		if (_err_ctx->last == NULL) {									\
+			_err_ctx->last = &(_err_ctx->error);						\
+			_err_ctx->error.error = &(_err_ctx->number);				\
+			_err_ctx->error.block = 0;									\
+			_err_ctx->number = E;										\
 			ERR_PRINT(E);												\
 		} else {														\
-			for (; ; longjmp(_ctx->last->addr, 1)) {					\
+			for (; ; longjmp(_err_ctx->last->addr, 1)) {				\
 				ERR_PRINT(E);											\
-				if (_ctx->last->error) {								\
+				if (_err_ctx->last->error) {							\
 					if (E != ERR_CAUGHT) {								\
-						*(_ctx->last->error) = E;						\
+						*(_err_ctx->last->error) = E;					\
 					}													\
 				}														\
 			}															\

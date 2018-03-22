@@ -710,6 +710,16 @@
 /** Chosen multithreading API. */
 #cmakedefine MULTI    @MULTI@
 
+/** Error mode none. */
+#define ERRMO_NONE     1
+/** Error mode separate context. */
+#define ERRMO_SEPCO    2
+/** Error mode separate thread local context. */
+#define ERRMO_SPTHREAD 3
+
+/** Chosen error handling mode. */
+#cmakedefine ERRMO    @ERRMO@
+
 /** Per-process high-resolution timer. */
 #define HREAL    1
 /** Per-process high-resolution timer. */

@@ -50,6 +50,7 @@
 #include "relic_rand.h"
 #include "relic_pool.h"
 #include "relic_label.h"
+#include "relic_err_core.h"
 
 #if MULTI != RELIC_NONE
 #include <math.h>
@@ -145,23 +146,9 @@ typedef struct _ctx_t {
 	/** The value returned by the last call, can be STS_OK or STS_ERR. */
 	int code;
 
-#ifdef CHECK
-	/** The state of the last error caught. */
-	sts_t *last;
-	/** Error state to be used outside try-catch blocks. */
-	sts_t error;
-	/** Error number to be used outside try-catch blocks. */
-	err_t number;
-	/** The error message respective to the last error. */
-	char *reason[ERR_MAX];
-	/** A flag to indicate if the last error was already caught. */
-	int caught;
+#if defined(CHECK) && ERRMO == ERRMO_NONE
+	err_ctx_t err_ctx;
 #endif /* CHECK */
-
-#if defined(CHECK) && defined(TRACE)
-	/** The current trace size. */
-	int trace;
-#endif /* CHECK && TRACE */
 
 #if ALLOC == STATIC
 	/** The static pool of digit vectors. */

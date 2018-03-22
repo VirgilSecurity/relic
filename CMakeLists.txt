@@ -113,6 +113,12 @@ message("   MULTI=         No multithreading support.")
 message("   MULTI=OPENMP   Open Multi-Processing.")
 message("   MULTI=PTHREAD  POSIX threads.\n")
 
+message(STATUS "Supported error handling modes (default = UNDEF):\n")
+
+message("   ERRMO=          Error context is embedded into ctx_t.")
+message("   ERRMO=SEPCO     Error context is global.")
+message("   ERRMO=SPTHREAD  Error context is thread-local.\n")
+
 message(STATUS "Supported timers (default = HPROC):\n")
 
 message("   TIMER=         No timer.")
@@ -350,6 +356,16 @@ else(MULTI STREQUAL OPENMP)
 		set(MULTI "RELIC_NONE" CACHE STRING "Operating system")
 	endif(MULTI STREQUAL PTHREAD)
 endif(MULTI STREQUAL OPENMP)
+
+if(ERRMO STREQUAL SPTHREAD)
+	find_package(Threads REQUIRED)
+	set(CFLAGS "${CFLAGS} -pthread")
+	set(ERRMO "ERRMO_SPTHREAD" CACHE STRING "Error mode")
+elseif(ERRMO STREQUAL SEPCO)
+	set(ERRMO "ERRMO_SEPCO" CACHE STRING "Error mode")
+else(ERRMO STREQUAL SPTHREAD)
+	set(ERRMO "ERRMO_NONE" CACHE STRING "Error mode")
+endif(ERRMO STREQUAL SPTHREAD)
 
 if(PROFL)
 	set(PFLAGS "-pg -fno-omit-frame-pointer")

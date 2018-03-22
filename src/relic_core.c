@@ -76,22 +76,17 @@ int core_init(void) {
 		core_ctx = &(first_ctx);
 	}
 
-#if defined(CHECK) && defined(TRACE)
+
+#if defined(CHECK)
+#ifdef TRACE
 	core_ctx->trace = 0;
 #endif
-
-#ifdef CHECK
-	core_ctx->reason[ERR_NO_MEMORY] = MSG_NO_MEMORY;
-	core_ctx->reason[ERR_NO_PRECI] = MSG_NO_PRECI;
-	core_ctx->reason[ERR_NO_FILE] = MSG_NO_FILE;
-	core_ctx->reason[ERR_NO_READ] = MSG_NO_READ;
-	core_ctx->reason[ERR_NO_VALID] = MSG_NO_VALID;
-	core_ctx->reason[ERR_NO_BUFFER] = MSG_NO_BUFFER;
-	core_ctx->reason[ERR_NO_FIELD] = MSG_NO_FIELD;
-	core_ctx->reason[ERR_NO_CURVE] = MSG_NO_CURVE;
-	core_ctx->reason[ERR_NO_CONFIG] = MSG_NO_CONFIG;
-	core_ctx->last = NULL;
-#endif /* CHECK */
+#if ERRMO == ERRMO_NONE
+    err_core_init(&core_ctx->err_ctx);
+#elif ERRMO == ERRMO_SEPCO
+    err_core_init_default();
+#endif
+#endif
 
 #if ALLOC == STATIC
 	core_ctx->next = 0;

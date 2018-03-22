@@ -67,6 +67,14 @@ void conf_print(void) {
 	util_print("** Arithmetic backend: " QUOTE(ARITH) "\n\n");
 #endif
 
+#if ERRMO == ERRMO_NONE
+	util_print("** Error mode: none\n\n");
+#elif ERRMO == ERRMO_SEPCO
+    util_print("** Error mode: separate context\n\n");
+#elif ERRMO == ERRMO_SPTHREAD
+    util_print("** Error mode: seprarate thread local context\n\n");
+#endif
+
 #ifdef LABEL
 	util_print("** Configured label: " QUOTE(LABEL) "\n\n");
 #endif
