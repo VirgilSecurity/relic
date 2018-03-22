@@ -125,9 +125,7 @@ void err_core_init_default(void) {
 #endif
 
 void err_core_init(err_ctx_t *err_core_ctx) {
-#if defined(TRACE)
-    err_core_ctx->trace = 0;
-#endif
+    memset(err_core_ctx, 0, sizeof(err_ctx_t));
 
     err_core_ctx->reason[ERR_NO_MEMORY] = MSG_NO_MEMORY;
     err_core_ctx->reason[ERR_NO_PRECI] = MSG_NO_PRECI;
