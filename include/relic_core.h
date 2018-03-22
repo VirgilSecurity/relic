@@ -50,7 +50,6 @@
 #include "relic_rand.h"
 #include "relic_pool.h"
 #include "relic_label.h"
-#include "relic_err_core.h"
 
 #if MULTI != RELIC_NONE
 #include <math.h>
