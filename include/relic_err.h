@@ -150,9 +150,9 @@ typedef struct _err_ctx_t {
 
 } err_ctx_t;
 
-void err_core_init_default(void);
+void err_core_reset_default(void);
 
-void err_core_init(err_ctx_t *err_ctx);
+void err_core_reset(err_ctx_t *err_ctx);
 
 #endif /* CHECK */
 

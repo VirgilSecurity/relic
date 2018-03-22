@@ -84,7 +84,7 @@ int core_init(void) {
 #if ERRMO == ERRMO_NONE
     err_core_init(&core_ctx->err_ctx);
 #elif ERRMO == ERRMO_SEPCO
-    err_core_init_default();
+    err_core_reset_default();
 #endif
 #endif
 

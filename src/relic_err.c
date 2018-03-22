@@ -115,16 +115,16 @@ thread err_ctx_t first_err_ctx;
  */
 thread err_ctx_t *err_core_ctx = NULL;
 
-void err_core_init_default(void) {
+void err_core_reset_default(void) {
     if (err_core_ctx == NULL) {
         err_core_ctx = &(first_err_ctx);
     }
 
-    err_core_init(err_core_ctx);
+    err_core_reset(err_core_ctx);
 }
 #endif
 
-void err_core_init(err_ctx_t *err_core_ctx) {
+void err_core_reset(err_ctx_t *err_core_ctx) {
     memset(err_core_ctx, 0, sizeof(err_ctx_t));
 
     err_core_ctx->reason[ERR_NO_MEMORY] = MSG_NO_MEMORY;
