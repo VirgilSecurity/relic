@@ -154,9 +154,10 @@ void err_core_reset_default(void);
 
 void err_core_reset(err_ctx_t *err_ctx);
 
+err_ctx_t *err_core_get(void);
+
 #endif /* CHECK */
 
-err_ctx_t *err_core_get(void);
 
 /*============================================================================*/
 /* Macro definitions                                                          */
