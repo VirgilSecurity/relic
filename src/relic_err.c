@@ -119,13 +119,14 @@ thread err_ctx_t *err_core_ctx = NULL;
 
 void err_core_reset_default(void) {
 
-#   if ERRMO != ERRMO_NONE
+#if ERRMO != ERRMO_NONE
     if (err_core_ctx == NULL) {
         err_core_ctx = &(first_err_ctx);
     }
-#   endif
-
-    err_core_reset(err_core_get());
+    err_core_reset(err_core_ctx);
+#else
+    err_core_reset(&core_get()->err_ctx);
+#endif
 }
 
 void err_core_reset(err_ctx_t *err_core_ctx) {
