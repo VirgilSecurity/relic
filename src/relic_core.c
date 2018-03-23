@@ -82,7 +82,7 @@ int core_init(void) {
 	core_ctx->trace = 0;
 #endif
 #if ERRMO == ERRMO_NONE
-    err_core_init(&core_ctx->err_ctx);
+    err_core_reset(&core_ctx->err_ctx);
 #elif ERRMO == ERRMO_SEPCO
     err_core_reset_default();
 #endif
