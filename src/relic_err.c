@@ -115,14 +115,18 @@ thread err_ctx_t first_err_ctx;
  */
 thread err_ctx_t *err_core_ctx = NULL;
 
+#endif /* ERRMO != ERRMO_NONE */
+
 void err_core_reset_default(void) {
+
+#   if ERRMO != ERRMO_NONE
     if (err_core_ctx == NULL) {
         err_core_ctx = &(first_err_ctx);
     }
+#   endif
 
-    err_core_reset(err_core_ctx);
+    err_core_reset(err_core_get());
 }
-#endif
 
 void err_core_reset(err_ctx_t *err_core_ctx) {
     memset(err_core_ctx, 0, sizeof(err_ctx_t));
