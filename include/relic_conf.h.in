@@ -713,7 +713,7 @@
 /** Error mode none. */
 #define ERRMO_NONE     1
 /** Error mode separate context. */
-#define ERRMO_SEPCO    2
+#define ERRMO_SEPCTX   2
 /** Error mode separate thread local context. */
 #define ERRMO_SPTHREAD 3
 
