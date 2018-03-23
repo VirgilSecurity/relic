@@ -81,11 +81,7 @@ int core_init(void) {
 #ifdef TRACE
 	core_ctx->trace = 0;
 #endif
-#if ERRMO == ERRMO_NONE
-    err_core_reset(&core_ctx->err_ctx);
-#elif ERRMO == ERRMO_SEPCO
-    err_core_reset_default();
-#endif
+	err_core_reset_default();
 #endif
 
 #if ALLOC == STATIC
