@@ -73,6 +73,8 @@ void conf_print(void) {
     util_print("** Error mode: separate context\n\n");
 #elif ERRMO == ERRMO_SPTHREAD
     util_print("** Error mode: seprarate thread local context\n\n");
+#else
+    util_print("** Error mode: UNKNOWN\n\n");
 #endif
 
 #ifdef LABEL
