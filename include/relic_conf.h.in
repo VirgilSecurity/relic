@@ -32,6 +32,9 @@
 #ifndef RELIC_CONF_H
 #define RELIC_CONF_H
 
+#include <limits.h>
+#include <stdint.h>
+
 /** Project version. */
 #define RELIC_VERSION "@VERSION@"
 
@@ -84,7 +87,22 @@
 #cmakedefine ARCH	 @ARCH@
 
 /** Size of word in this architecture. */
-#define WORD     @WORD@
+#cmakedefine WORD    @WORD@
+
+#ifndef WORD
+#if ULONG_MAX == UINT8_MAX
+#define WORD    8
+
+#elif ULONG_MAX == UINT16_MAX
+#define WORD    16
+
+#elif ULONG_MAX == UINT32_MAX
+#define WORD    32
+
+#elif ULONG_MAX == UINT64_MAX
+#define WORD    64
+#endif
+#endif
 
 /** Byte boundary to align digit vectors. */
 #define ALIGN    @ALIGN@

@@ -149,13 +149,13 @@ typedef unsigned long long ull_t;
  * @param[in,out] A		- the pointer to align.
  */
 #if ALIGN > 1
-#if ARCH == AVR || ARCH == MSP || ARCH == X86 || ARCH == ARM
-#define ALIGNED(A)															\
-	((unsigned int)(A) + PADDING((unsigned int)(A)));						\
+#if WORD == 64
+#define ALIGNED(A)                                                          \
+    ((unsigned long)(A) + PADDING((unsigned long)(A)));                     \
 
-#elif ARCH  == X64
-#define ALIGNED(A)															\
-	((unsigned long)(A) + PADDING((unsigned long)(A)));						\
+#else
+#define ALIGNED(A)                                                          \
+    ((unsigned int)(A) + PADDING((unsigned int)(A)));                       \
 
 #endif
 #else

@@ -21,28 +21,7 @@ message("   ALIGN=2        Align digit vectors into 16-bit boundaries.")
 message("   ALIGN=8        Align digit vectors into 64-bit boundaries.")
 message("   ALIGN=16       Align digit vectors into 128-bit boundaries.\n")
 
-# Architecture and memory layout.
-if(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86")
-	set(ARCH "X86" CACHE STRING "Architecture")
-endif(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86")
-if(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
-	set(ARCH "X64" CACHE STRING "Architecture")
-endif(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
-
-if(ARCH STREQUAL X86)
-	set(AFLAGS "-m32")
-	set(WORD 32)
-endif(ARCH STREQUAL X86)
-if(ARCH STREQUAL X64)
-	set(AFLAGS "-m64")
-	set(WORD 64)
-endif(ARCH STREQUAL X64)
-
-if(NOT WORD)
-	set(WORD 64)
-endif(NOT WORD)
-set(WORD ${WORD} CACHE INTEGER "Processor word size")
-
+# Memory layout.
 if(NOT ALIGN)
 	set(ALIGN 1)
 endif(NOT ALIGN)
