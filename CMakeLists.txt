@@ -385,8 +385,8 @@ if(ARITH STREQUAL "gmp" OR ARITH STREQUAL "gmp-sec")
 	endif(GMP_FOUND)
 endif(ARITH STREQUAL "gmp" OR ARITH STREQUAL "gmp-sec")
 
-set(CMAKE_C_FLAGS "-pipe -std=c99 ${AFLAGS} ${WFLAGS} ${DFLAGS} ${PFLAGS} ${CFLAGS}")
-set(CMAKE_EXE_LINKER_FLAGS ${LFLAGS})
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pipe -std=c99 ${AFLAGS} ${WFLAGS} ${DFLAGS} ${PFLAGS} ${CFLAGS}")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LFLAGS}")
 
 message(STATUS "Compiler flags: ${CMAKE_C_FLAGS}")
 message(STATUS "Linker flags: ${LFLAGS}")
