@@ -40,7 +40,7 @@
 /* Public definitions                                                         */
 /*============================================================================*/
 
-void bn_init(bn_t a, int digits) {
+void relic_bn_init(bn_t a, int digits) {
 #if ALLOC == DYNAMIC
 	if (digits % BN_SIZE != 0) {
 		/* Pad the number of digits to a multiple of the block. */

@@ -134,6 +134,17 @@ typedef bn_st *bn_t;
 /* Macro definitions                                                          */
 /*============================================================================*/
 
+
+/**
+ * Namespace aliases to avoid symbol conflicts.
+ * Known conflicts:
+ *     - Module: 'openssl/crypto/bn'
+ *         - Function: bn_init()
+ *         - Function: bn_free() // bn_free is a macros in relic so no conflict
+ * Note: fix provided by Virgil Security Inc.
+ */
+#define bn_init relic_bn_init
+
 /**
  * Initializes a multiple precision integer with a null value.
  *
@@ -420,7 +431,7 @@ typedef bn_st *bn_t;
  * @throw ERR_PRECISION		- if the required precision cannot be represented
  * 							by the library.
  */
-void bn_init(bn_t a, int digits);
+void relic_bn_init(bn_t a, int digits);
 
 /**
  * Cleans a multiple precision integer.
