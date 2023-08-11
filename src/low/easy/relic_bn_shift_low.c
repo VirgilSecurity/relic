@@ -109,6 +109,13 @@ dig_t bn_rshb_low(dig_t *c, const dig_t *a, int size, int bits) {
 	int i;
 	dig_t r, carry, shift, mask;
 
+	if (0 == bits) {
+		for (i = 0; i < size; ++i) {
+			c[i] = a[i];
+		}
+		return 0;
+	}
+
 	c += size - 1;
 	a += size - 1;
 	/* Prepare the bit mask. */
