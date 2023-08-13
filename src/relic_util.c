@@ -133,6 +133,9 @@ char util_conv_char(dig_t i) {
 }
 
 int util_bits_dig(dig_t a) {
+	if (0 == a) {
+		return 0;
+	}
 #if WORD == 8 || WORD == 16
 	static const uint8_t table[16] = {
 		0, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4
