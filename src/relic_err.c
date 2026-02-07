@@ -99,7 +99,13 @@ void err_get_msg(err_t *e, char **msg) {
  * If multi-threading is enabled, assigns each thread a local copy of the data.
  */
 #if ERRMO == ERRMO_SPTHREAD
-#define thread 	__thread
+#if defined(_MSC_VER)
+#define thread __declspec(thread)
+#elif defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 201112L)
+#define thread _Thread_local
+#else
+#define thread __thread
+#endif
 #else
 #define thread /* */
 #endif
